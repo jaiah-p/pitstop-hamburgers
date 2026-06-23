@@ -49,8 +49,8 @@ export default function Place() {
           <Reveal>
             <figure className="overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
               <img
-                src="/photos/deck.jpg"
-                alt="The Pitstop deck at the Thora General Store"
+                src="/photos/drive-forest.jpg"
+                alt="Dorrigo rainforest along Waterfall Way"
                 className="aspect-[16/11] w-full object-cover transition-transform duration-700 hover:scale-105"
               />
             </figure>

@@ -1,51 +1,85 @@
 "use client";
 
-import { motion, useSpring, useTransform } from "framer-motion";
+import { motion, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
 import { useScrollProgress } from "./ui/use-scroll-progress";
 import { MapPin } from "./icons";
 
 /**
  * Scroll-driven journey to Pitstop. As you scroll: a winding road draws itself
- * down "Waterfall Way", a marker travels the route, a pin drops at the end, and
- * the Pitstop sign reveals. Driven by useScrollProgress (rAF) — proven in this
- * Lenis/Next 16 setup.
+ * down "Waterfall Way", a marker rides the route, a postcard cross-fades through
+ * scenery of the drive, then a pin drops and the Pitstop arrival reveals.
  */
 
 const ROAD =
   "M160 12 C 70 110 70 215 160 305 S 250 475 160 565 S 78 705 160 795 S 205 865 160 905";
 
+// Each "stop" on the drive fades in, peaks, then fades to the next.
+const STOPS = [
+  { src: "/photos/drive-forest.jpg", label: "Dorrigo rainforest", at: [0, 0.14, 0.3] },
+  { src: "/photos/drive-falls.jpg", label: "Waterfall Way", at: [0.26, 0.4, 0.54] },
+  { src: "/photos/area-falls.jpg", label: "Dangar Falls", at: [0.48, 0.62, 0.74] },
+];
+
+// The arrival shot. Drop a close-up of the Pitstop sign at /photos/sign.jpg and
+// change this to swap it in.
+const ARRIVAL = { src: "/photos/store.jpg", label: "Pitstop Hamburgers" };
+
+function Postcard({
+  src,
+  label,
+  opacity,
+}: {
+  src: string;
+  label: string;
+  opacity: MotionValue<number>;
+}) {
+  return (
+    <motion.figure
+      style={{ opacity }}
+      className="absolute inset-0 flex flex-col"
+    >
+      <img
+        src={src}
+        alt={label}
+        className="h-full w-full flex-1 rounded-md object-cover"
+      />
+      <figcaption className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-1 text-xs font-bold uppercase tracking-widest text-cream shadow-lg">
+        {label}
+      </figcaption>
+    </motion.figure>
+  );
+}
+
 export default function WindingRoad() {
   const ref = useRef<HTMLDivElement>(null);
   const p = useScrollProgress(ref);
 
-  // road draws over the first 80% of the scroll
-  const draw = useTransform(p, [0, 0.8], [0, 1]);
-  const marker = useTransform(p, [0, 0.8], [0, 0.99]);
+  const draw = useTransform(p, [0, 0.82], [0, 1]);
+  const marker = useTransform(p, [0, 0.82], [0, 0.99]);
 
-  const signFade = useTransform(p, [0, 0.12], [0, 1]);
-  const signY = useTransform(p, [0, 0.12], [-24, 0]);
+  const signFade = useTransform(p, [0, 0.1], [0, 1]);
+  const signY = useTransform(p, [0, 0.1], [-24, 0]);
 
-  // pin pops near the end, with a spring overshoot
-  const pinScale = useSpring(useTransform(p, [0.72, 0.9], [0, 1]), {
+  // opacity for each scenery stop (fade in → peak → fade out)
+  const o0 = useTransform(p, STOPS[0].at, [0, 1, 0]);
+  const o1 = useTransform(p, STOPS[1].at, [0, 1, 0]);
+  const o2 = useTransform(p, STOPS[2].at, [0, 1, 0]);
+  const stopOpacities = [o0, o1, o2];
+  const arrivalOpacity = useTransform(p, [0.78, 0.9], [0, 1]);
+
+  const pinScale = useSpring(useTransform(p, [0.74, 0.9], [0, 1]), {
     stiffness: 280,
     damping: 16,
   });
-  const pinY = useTransform(p, [0.66, 0.86], [-60, 0]);
-
-  // the Pitstop sign photo reveals last
-  const photoScale = useSpring(useTransform(p, [0.84, 1], [0.6, 1]), {
-    stiffness: 200,
-    damping: 22,
-  });
-  const photoOpacity = useTransform(p, [0.84, 0.98], [0, 1]);
-  const arriveOpacity = useTransform(p, [0.9, 1], [0, 1]);
+  const pinY = useTransform(p, [0.68, 0.88], [-50, 0]);
+  const arriveText = useTransform(p, [0.9, 1], [0, 1]);
 
   return (
     <section
       ref={ref}
       id="journey"
-      className="relative h-[260vh] bg-paper"
+      className="relative h-[320vh] bg-paper"
       style={{
         backgroundImage:
           "radial-gradient(circle at 1px 1px, rgba(24,18,16,0.07) 1px, transparent 0)",
@@ -53,18 +87,11 @@ export default function WindingRoad() {
       }}
     >
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5">
-        <motion.p
-          style={{ opacity: signFade }}
-          className="eyebrow absolute top-[12vh] text-red"
-        >
-          The drive in
-        </motion.p>
-
-        {/* Waterfall Way road sign */}
         <motion.div
           style={{ opacity: signFade, y: signY }}
-          className="absolute top-[16vh] z-20"
+          className="absolute top-[10vh] z-30"
         >
+          <p className="eyebrow mb-2 text-center text-red">The drive in</p>
           <div className="rounded-lg border-[3px] border-cream bg-pickle px-6 py-2 text-center shadow-xl">
             <span className="block text-[0.6rem] font-bold uppercase tracking-[0.3em] text-cream/80">
               Waterfall Way
@@ -76,65 +103,36 @@ export default function WindingRoad() {
         </motion.div>
 
         {/* the road */}
-        <svg
-          viewBox="0 0 320 920"
-          className="h-[78vh] w-auto"
-          fill="none"
-          aria-hidden
-        >
-          {/* dark asphalt */}
-          <motion.path
-            d={ROAD}
-            stroke="#211c19"
-            strokeWidth="30"
-            strokeLinecap="round"
-            style={{ pathLength: draw }}
-          />
-          {/* dashed centre line */}
-          <motion.path
-            d={ROAD}
-            stroke="#edb43c"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeDasharray="1 16"
-            style={{ pathLength: draw }}
-          />
-          {/* travelling marker (a short bright segment that rides the route) */}
-          <motion.path
-            d={ROAD}
-            stroke="#f6ecd6"
-            strokeWidth="13"
-            strokeLinecap="round"
-            style={{ pathLength: 0.012, pathOffset: marker }}
-          />
+        <svg viewBox="0 0 320 920" className="absolute h-[82vh] w-auto" fill="none" aria-hidden>
+          <motion.path d={ROAD} stroke="#211c19" strokeWidth="30" strokeLinecap="round" style={{ pathLength: draw }} />
+          <motion.path d={ROAD} stroke="#edb43c" strokeWidth="3" strokeLinecap="round" strokeDasharray="1 16" style={{ pathLength: draw }} />
+          <motion.path d={ROAD} stroke="#f6ecd6" strokeWidth="13" strokeLinecap="round" style={{ pathLength: 0.012, pathOffset: marker }} />
         </svg>
+
+        {/* cycling postcard of the drive */}
+        <div className="relative z-20 aspect-[4/3] w-[64vw] max-w-md rounded-lg bg-cream p-2 shadow-2xl ring-1 ring-ink/10">
+          <div className="relative h-full w-full overflow-hidden rounded-md bg-ink/10">
+            {STOPS.map((s, i) => (
+              <Postcard key={s.src} src={s.src} label={s.label} opacity={stopOpacities[i]} />
+            ))}
+            <Postcard src={ARRIVAL.src} label={ARRIVAL.label} opacity={arrivalOpacity} />
+          </div>
+        </div>
 
         {/* destination pin */}
         <motion.div
           style={{ scale: pinScale, y: pinY }}
-          className="absolute bottom-[12vh] z-20 flex flex-col items-center"
+          className="absolute bottom-[11vh] z-30 flex flex-col items-center"
         >
-          <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-red shadow-2xl ring-4 ring-cream">
-            <MapPin className="h-8 w-8 text-cream" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red shadow-2xl ring-4 ring-cream">
+            <MapPin className="h-7 w-7 text-cream" />
           </div>
-          <div className="-mt-1 h-4 w-4 rotate-45 bg-red ring-4 ring-cream" />
+          <div className="-mt-1 h-3.5 w-3.5 rotate-45 bg-red ring-4 ring-cream" />
         </motion.div>
 
-        {/* the Pitstop sign reveal */}
-        <motion.figure
-          style={{ scale: photoScale, opacity: photoOpacity }}
-          className="absolute bottom-[20vh] z-10 w-[68vw] max-w-sm overflow-hidden rounded-xl bg-cream p-2 shadow-2xl"
-        >
-          <img
-            src="/photos/store.jpg"
-            alt="Pitstop Hamburgers, behind the Thora General Store"
-            className="aspect-[4/3] w-full rounded-md object-cover"
-          />
-        </motion.figure>
-
         <motion.p
-          style={{ opacity: arriveOpacity }}
-          className="script absolute bottom-[8vh] z-20 text-2xl text-red sm:text-3xl"
+          style={{ opacity: arriveText }}
+          className="script absolute bottom-[5vh] z-30 text-2xl text-red sm:text-3xl"
         >
           you&rsquo;ve arrived
         </motion.p>
