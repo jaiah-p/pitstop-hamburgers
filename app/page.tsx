@@ -6,6 +6,7 @@ import Gallery from "@/components/Gallery";
 import Menu from "@/components/Menu";
 import ChessClub from "@/components/ChessClub";
 import Visit from "@/components/Visit";
+import SeeMore from "@/components/SeeMore";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <Menu />
         <ChessClub />
         <Visit />
+        <SeeMore />
       </main>
       <Footer />
     </>

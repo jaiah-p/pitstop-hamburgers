@@ -56,7 +56,7 @@ export default function Hero() {
           className="eyebrow mb-4 inline-flex items-center gap-2 rounded-full border border-cream/40 px-4 py-1.5 text-cream/90 transition-colors hover:border-mustard hover:text-mustard"
         >
           <MapPin className="h-3.5 w-3.5" />
-          Thora General Store
+          Pitstop Hamburgers · Thora
         </a>
 
         {/* real Pitstop wordmark */}
