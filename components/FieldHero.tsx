@@ -2,7 +2,7 @@
 
 import { motion, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { SITE } from "@/lib/site";
+import { SITE, GOOGLE } from "@/lib/site";
 import { ArrowDown, MapPin } from "./icons";
 import { useScrollProgress } from "./ui/use-scroll-progress";
 
@@ -76,6 +76,14 @@ export default function FieldHero() {
           <p className="script mt-4 text-2xl text-cream drop-shadow-lg sm:text-3xl">
             {SITE.tagline}
           </p>
+          <a
+            href="#reviews"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-cream/95 px-4 py-1.5 text-sm font-bold text-ink shadow-lg transition-transform hover:scale-105"
+          >
+            <span className="tracking-tight text-mustard">★★★★★</span>
+            {GOOGLE.rating} on Google
+            <span className="font-normal text-ink/50">· {GOOGLE.count} reviews</span>
+          </a>
         </motion.div>
 
         {/* bottom strip + cue */}

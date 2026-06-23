@@ -54,6 +54,37 @@ export const MENU: MenuItem[] = [
   },
 ];
 
+// Real Google rating + reviews (Google Business Profile, pulled from Maps).
+export const GOOGLE = {
+  rating: 4.8,
+  count: 65,
+  url: SITE.maps,
+};
+
+export type Review = {
+  author: string;
+  rating: number;
+  text: string;
+};
+
+export const REVIEWS: Review[] = [
+  {
+    author: "Abbey Farlow",
+    rating: 5,
+    text: "The absolute best burger I've ever had. The chef used to work at the famed hatted restaurant Sixpenny and you can tell because the quality of the food is incredible. What a charming little stop on the way to the waterholes.",
+  },
+  {
+    author: "Nathan Mallon",
+    rating: 5,
+    text: "Genuinely insanely delicious smash burgers beating out plenty of the hyped city burger spots. Super kind little team behind it, and well worth going out of your way to experience. The shakes are so good too! Well worth the wait when they're busy.",
+  },
+  {
+    author: "Lou L",
+    rating: 5,
+    text: "One of the best smash burgers I've had in a very long time. Beef tallow fries were amazing as well. Worth it!",
+  },
+];
+
 export type PitstopEvent = {
   when: string;
   title: string;
