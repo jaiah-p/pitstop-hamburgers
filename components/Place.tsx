@@ -34,7 +34,7 @@ export default function Place() {
           <Reveal delay={0.1}>
             <figure className="h-full overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
               <img
-                src="/photos/area-falls.jpg"
+                src="/photos/drive-falls.jpg"
                 alt="Dangar Falls near Dorrigo on Waterfall Way"
                 className="h-full min-h-56 w-full object-cover transition-transform duration-700 hover:scale-105"
               />

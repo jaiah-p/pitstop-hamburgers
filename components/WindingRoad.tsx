@@ -8,22 +8,17 @@ import { MapPin } from "./icons";
 /**
  * Scroll-driven journey to Pitstop. As you scroll: a winding road draws itself
  * down "Waterfall Way", a marker rides the route, a postcard cross-fades through
- * scenery of the drive, then a pin drops and the Pitstop arrival reveals.
+ * scenery of the drive, then a pin drops and you arrive at Pitstop.
  */
 
 const ROAD =
   "M160 12 C 70 110 70 215 160 305 S 250 475 160 565 S 78 705 160 795 S 205 865 160 905";
 
-// Each "stop" on the drive fades in, peaks, then fades to the next.
+// Scenery of the drive (real, people-free). Each fades in → peaks → fades out.
 const STOPS = [
-  { src: "/photos/drive-forest.jpg", label: "Dorrigo rainforest", at: [0, 0.14, 0.3] },
-  { src: "/photos/drive-falls.jpg", label: "Waterfall Way", at: [0.26, 0.4, 0.54] },
-  { src: "/photos/area-falls.jpg", label: "Dangar Falls", at: [0.48, 0.62, 0.74] },
+  { src: "/photos/drive-forest.jpg", label: "Dorrigo rainforest", at: [0, 0.18, 0.42] },
+  { src: "/photos/drive-falls.jpg", label: "Dangar Falls", at: [0.36, 0.56, 0.74] },
 ];
-
-// The arrival shot. Drop a close-up of the Pitstop sign at /photos/sign.jpg and
-// change this to swap it in.
-const ARRIVAL = { src: "/photos/store.jpg", label: "Pitstop Hamburgers" };
 
 function Postcard({
   src,
@@ -35,18 +30,13 @@ function Postcard({
   opacity: MotionValue<number>;
 }) {
   return (
-    <motion.figure
-      style={{ opacity }}
-      className="absolute inset-0 flex flex-col"
-    >
-      <img
-        src={src}
-        alt={label}
-        className="h-full w-full flex-1 rounded-md object-cover"
-      />
-      <figcaption className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-1 text-xs font-bold uppercase tracking-widest text-cream shadow-lg">
-        {label}
-      </figcaption>
+    <motion.figure style={{ opacity }} className="absolute inset-0">
+      <img src={src} alt={label} className="h-full w-full object-cover" />
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent px-4 pb-3 pt-10">
+        <figcaption className="text-center text-sm font-bold uppercase tracking-[0.25em] text-cream">
+          {label}
+        </figcaption>
+      </div>
     </motion.figure>
   );
 }
@@ -61,12 +51,10 @@ export default function WindingRoad() {
   const signFade = useTransform(p, [0, 0.1], [0, 1]);
   const signY = useTransform(p, [0, 0.1], [-24, 0]);
 
-  // opacity for each scenery stop (fade in → peak → fade out)
   const o0 = useTransform(p, STOPS[0].at, [0, 1, 0]);
   const o1 = useTransform(p, STOPS[1].at, [0, 1, 0]);
-  const o2 = useTransform(p, STOPS[2].at, [0, 1, 0]);
-  const stopOpacities = [o0, o1, o2];
-  const arrivalOpacity = useTransform(p, [0.78, 0.9], [0, 1]);
+  const stopOpacities = [o0, o1];
+  const arrivalOpacity = useTransform(p, [0.72, 0.86], [0, 1]);
 
   const pinScale = useSpring(useTransform(p, [0.74, 0.9], [0, 1]), {
     stiffness: 280,
@@ -89,7 +77,7 @@ export default function WindingRoad() {
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5">
         <motion.div
           style={{ opacity: signFade, y: signY }}
-          className="absolute top-[10vh] z-30"
+          className="absolute top-[9vh] z-30"
         >
           <p className="eyebrow mb-2 text-center text-red">The drive in</p>
           <div className="rounded-lg border-[3px] border-cream bg-pickle px-6 py-2 text-center shadow-xl">
@@ -109,13 +97,24 @@ export default function WindingRoad() {
           <motion.path d={ROAD} stroke="#f6ecd6" strokeWidth="13" strokeLinecap="round" style={{ pathLength: 0.012, pathOffset: marker }} />
         </svg>
 
-        {/* cycling postcard of the drive */}
+        {/* postcard of the drive — cross-fades scenery, then the arrival card */}
         <div className="relative z-20 aspect-[4/3] w-[64vw] max-w-md rounded-lg bg-cream p-2 shadow-2xl ring-1 ring-ink/10">
           <div className="relative h-full w-full overflow-hidden rounded-md bg-ink/10">
             {STOPS.map((s, i) => (
               <Postcard key={s.src} src={s.src} label={s.label} opacity={stopOpacities[i]} />
             ))}
-            <Postcard src={ARRIVAL.src} label={ARRIVAL.label} opacity={arrivalOpacity} />
+
+            {/* arrival card. Drop a close-up of the sign at /photos/sign.jpg and
+                replace this block with <Postcard src="/photos/sign.jpg" .../>. */}
+            <motion.div
+              style={{ opacity: arrivalOpacity }}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-red-deep"
+            >
+              <img src="/photos/logo-cream.svg" alt="Pitstop Hamburgers" className="w-[62%]" />
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-cream/80">
+                Thora · NSW
+              </span>
+            </motion.div>
           </div>
         </div>
 

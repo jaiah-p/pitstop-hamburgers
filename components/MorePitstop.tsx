@@ -67,8 +67,8 @@ export default function MorePitstop() {
           <Reveal className="lg:col-span-2">
             <figure className="h-full overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
               <img
-                src="/photos/deck2.jpg"
-                alt="The order counter on the Pitstop deck"
+                src="/photos/singer.jpg"
+                alt="Country tunes and live music in the valley"
                 className="aspect-[4/3] w-full object-cover lg:aspect-auto lg:h-full"
               />
             </figure>
