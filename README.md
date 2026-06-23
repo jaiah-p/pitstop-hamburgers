@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pitstop Hamburgers
 
-## Getting Started
+Marketing site for **Pitstop Hamburgers** — an old-school roadside burger shop behind the
+Thora General Store, midway between Bellingen and Dorrigo, NSW.
 
-First, run the development server:
+Built with Next.js 16, Tailwind v4, Framer Motion and Lenis smooth scroll. Fully static.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build (static)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Add `?nosmooth=1` to the URL to disable smooth scroll + reveal animations (handy for QA / screenshots).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `app/layout.tsx` — fonts (Anton / Inter / Caveat), metadata, smooth scroll + grain.
+- `app/page.tsx` — section order.
+- `lib/site.ts` — **single source of truth** for the menu, prices, hours, address and social links.
+- `components/` — one file per section (`Hero`, `Ticker`, `Story`, `Menu`, `ChessClub`, `Visit`, `Footer`).
+- `components/BurgerSVG.tsx` — the layered burger illustration (with the `hot` pineapple state).
 
-## Learn More
+## Updating content
 
-To learn more about Next.js, take a look at the following resources:
+- **Prices / menu items / hours / address:** edit `lib/site.ts`. The interactive board prices live in
+  `components/Menu.tsx` (`LetterBoard`).
+- **Social links:** `instagram` / `facebook` in `lib/site.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Adding real food photos (recommended)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The site is intentionally photo-optional and runs on illustration + type. To drop in Gemma's real
+photography, add files to `public/photos/` and swap the relevant illustration/placeholder. Good spots:
 
-## Deploy on Vercel
+- Hero background or a band beneath it (the tray-on-grass shot).
+- A gallery strip between **Story** and **Menu**.
+- The Visit section, behind/beside the map.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Custom domain
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on Vercel. To use `pitstophamburgers.com.au` (or similar): add the domain in the Vercel
+project → Settings → Domains, then update `SITE` in `app/layout.tsx` so Open Graph URLs match.

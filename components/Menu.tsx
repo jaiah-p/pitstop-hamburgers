@@ -1,0 +1,154 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MENU } from "@/lib/site";
+import BurgerSVG from "./BurgerSVG";
+import Reveal from "./Reveal";
+
+/* The felt letter-board, recreated from the shop's real sign. */
+function LetterBoard({ hot }: { hot: boolean }) {
+  const board = [
+    { label: "The World Famous Cheese Burger", price: hot ? 19 : 17 },
+    { label: "Make It Hot & Tropical", price: 2 },
+    { label: "Beef Tallow Fries", price: 7 },
+    { label: "Dinosaur Nuggets", price: 7 },
+    { label: "Homemade Sweet Southern Ice Tea", price: 6 },
+    { label: "Milkshake", price: 7 },
+  ];
+  return (
+    <div className="rounded-md bg-[#7c0b14] p-3 shadow-2xl ring-1 ring-black/30">
+      <div
+        className="relative rounded-sm border-[6px] border-[#d9d2c4] p-6 text-cream sm:p-8"
+        style={{
+          background:
+            "repeating-linear-gradient(#b3121d, #b3121d 13px, #a50f1c 13px, #a50f1c 15px)",
+        }}
+      >
+        <p className="text-center text-sm uppercase tracking-[0.3em] text-cream/80">
+          Welcome to
+        </p>
+        <p className="headline mt-1 text-center text-4xl text-cream">
+          Pitstop <span className="text-mustard">★</span>
+        </p>
+
+        <ul className="mt-6 space-y-3">
+          {board.map((row) => (
+            <li
+              key={row.label}
+              className="flex items-baseline justify-between gap-3 text-sm uppercase tracking-wide sm:text-base"
+            >
+              <span className="font-semibold">{row.label}</span>
+              <span aria-hidden className="mx-1 flex-1 border-b border-dotted border-cream/30" />
+              <span className="tabular-nums font-bold text-mustard">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.span
+                    key={row.price}
+                    initial={{ y: -10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 10, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="inline-block"
+                  >
+                    {row.price}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-6 text-center text-sm uppercase tracking-[0.35em] text-cream/90">
+          Don&rsquo;t think twice!
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function Menu() {
+  const [hot, setHot] = useState(false);
+
+  return (
+    <section id="menu" className="relative bg-ink py-24 text-cream sm:py-32">
+      {/* halftone top */}
+      <div aria-hidden className="halftone pointer-events-none absolute inset-0 text-white/[0.04]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <Reveal className="text-center">
+          <p className="eyebrow text-mustard">The whole menu · three things done right</p>
+          <h2 className="headline mt-3 text-6xl sm:text-8xl">
+            Tight by <span className="text-red">design.</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-cream/70">
+            One double cheeseburger. Crinkle-cut fries in beef tallow. Vanilla
+            milkshakes. Nothing wasted, nothing tired.
+          </p>
+        </Reveal>
+
+        <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
+          {/* interactive burger builder */}
+          <Reveal className="order-2 flex flex-col items-center lg:order-1">
+            <motion.div
+              animate={{ rotate: hot ? [0, -1.5, 1.5, 0] : 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-full max-w-sm"
+            >
+              <BurgerSVG hot={hot} className="h-auto w-full" />
+            </motion.div>
+
+            <div className="mt-2 text-center">
+              <p className="headline text-3xl">The World Famous Cheeseburger</p>
+              <p className="mt-2 text-4xl font-bold text-mustard tabular-nums">
+                ${hot ? 19 : 17}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setHot((v) => !v)}
+                aria-pressed={hot}
+                className={`group mt-5 inline-flex items-center gap-3 rounded-full border-2 px-6 py-3 text-sm font-bold uppercase tracking-widest transition-all ${
+                  hot
+                    ? "border-mustard bg-mustard text-ink shadow-[0_0_30px_-4px] shadow-mustard"
+                    : "border-cream/40 text-cream hover:border-mustard hover:text-mustard"
+                }`}
+              >
+                <span className="text-lg">{hot ? "🌶️🍍" : "🍍"}</span>
+                {hot ? "Hot & Tropical — added" : "Make it Hot & Tropical (+$2)"}
+              </button>
+              <p className="mt-3 text-xs uppercase tracking-widest text-cream/40">
+                Spicy fried pineapple — tap to taste it
+              </p>
+            </div>
+          </Reveal>
+
+          {/* the board */}
+          <Reveal delay={0.1} className="order-1 mx-auto w-full max-w-md lg:order-2">
+            <LetterBoard hot={hot} />
+          </Reveal>
+        </div>
+
+        {/* the supporting cast */}
+        <div className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {MENU.filter((m) => m.note !== "add-on").map((item, i) => (
+            <Reveal
+              key={item.name}
+              delay={i * 0.05}
+              className="group rounded-2xl border border-cream/10 bg-white/[0.03] p-6 transition-colors hover:border-mustard/50 hover:bg-white/[0.06]"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="headline text-2xl leading-tight">{item.name}</h3>
+                <span className="shrink-0 rounded-full bg-red px-3 py-1 text-sm font-bold tabular-nums">
+                  ${item.price}
+                </span>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-cream/60">
+                {item.blurb}
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
