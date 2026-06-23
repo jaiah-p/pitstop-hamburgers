@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { motion, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useScrollProgress } from "./use-scroll-progress";
 
 /**
  * Scroll-driven "assemble" animation (adapted from Skiper31).
@@ -118,8 +114,8 @@ export function TextScrollAnimation({
   const textRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
 
-  const { scrollYProgress: textProgress } = useScroll({ target: textRef });
-  const { scrollYProgress: imageProgress } = useScroll({ target: imageRef });
+  const textProgress = useScrollProgress(textRef);
+  const imageProgress = useScrollProgress(imageRef);
 
   const characters = heading.split("");
   const centerIndex = Math.floor(characters.length / 2);

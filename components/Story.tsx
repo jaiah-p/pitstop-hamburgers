@@ -5,7 +5,7 @@ export default function Story() {
     <section id="story" className="relative bg-cream py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <p className="eyebrow text-red">In the heart of the valley</p>
+          <p className="eyebrow text-red">Meet the chef</p>
         </Reveal>
 
         <Reveal delay={0.05}>
@@ -62,6 +62,19 @@ export default function Story() {
             <span className="text-red font-semibold">And you can taste it.</span>
             &rdquo;
           </p>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <figure className="relative mt-14 overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
+            <img
+              src="/photos/singer.jpg"
+              alt="The old-school country roadside feeling at Pitstop"
+              className="aspect-[21/9] w-full object-cover"
+            />
+            <figcaption className="script absolute bottom-3 left-5 text-2xl text-cream drop-shadow-lg sm:text-3xl">
+              country tunes in the background
+            </figcaption>
+          </figure>
         </Reveal>
       </div>
     </section>
