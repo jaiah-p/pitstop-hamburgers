@@ -23,7 +23,7 @@ const caveat = Caveat({
   display: "swap",
 });
 
-const SITE = "https://pitstop-hamburgers.vercel.app";
+const SITE = "https://pitstop-hamburgers-jaiah-7290s-projects.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
