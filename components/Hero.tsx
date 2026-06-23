@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { SITE } from "@/lib/site";
-import { ArrowDown } from "./icons";
+import { ArrowDown, MapPin } from "./icons";
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -49,9 +49,15 @@ export default function Hero() {
         style={{ y: titleY, opacity: fade }}
         className="relative z-10 flex flex-col items-center text-center"
       >
-        <span className="eyebrow mb-4 inline-block rounded-full border border-cream/40 px-4 py-1 text-cream/90">
-          Thora · NSW · Est. in the valley
-        </span>
+        <a
+          href={SITE.maps}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="eyebrow mb-4 inline-flex items-center gap-2 rounded-full border border-cream/40 px-4 py-1.5 text-cream/90 transition-colors hover:border-mustard hover:text-mustard"
+        >
+          <MapPin className="h-3.5 w-3.5" />
+          Thora General Store
+        </a>
 
         {/* real Pitstop wordmark */}
         <img

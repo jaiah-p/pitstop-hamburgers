@@ -7,61 +7,90 @@ import Reveal from "./Reveal";
 
 function LetterBoard({ hot }: { hot: boolean }) {
   const board = [
-    { label: "The World Famous Cheese Burger", price: hot ? 19 : 17 },
+    { label: "The World Famous Cheese Burger", price: hot ? 20 : 18 },
     { label: "Make It Hot & Tropical", price: 2 },
     { label: "Beef Tallow Fries", price: 7 },
     { label: "Dinosaur Nuggets", price: 7 },
     { label: "Homemade Sweet Southern Ice Tea", price: 6 },
     { label: "Milkshake", price: 7 },
   ];
+  const white = "#f5f1e6";
   return (
-    <div className="rounded-md bg-[#7c0b14] p-3 shadow-2xl ring-1 ring-black/30">
+    /* wood mount */
+    <div
+      className="rounded-[10px] p-3 shadow-2xl sm:p-4"
+      style={{
+        background:
+          "repeating-linear-gradient(90deg, #7c5631 0 46px, #6b4a29 46px 48px), linear-gradient(180deg, #79532f, #5e3f24)",
+      }}
+    >
+      {/* brushed aluminium frame */}
       <div
-        className="relative rounded-sm border-[6px] border-[#d9d2c4] p-6 text-cream sm:p-8"
+        className="rounded-[5px] p-2.5"
         style={{
           background:
-            "repeating-linear-gradient(#b3121d, #b3121d 13px, #a50f1c 13px, #a50f1c 15px)",
+            "linear-gradient(135deg, #f1f1f3 0%, #c2c2c6 42%, #e6e6ea 55%, #aeaeb2 100%)",
+          boxShadow:
+            "inset 0 0 0 1px rgba(255,255,255,0.55), inset 0 0 6px rgba(0,0,0,0.25)",
         }}
       >
-        <p className="text-center text-sm uppercase tracking-[0.3em] text-cream/80">
-          Welcome to
-        </p>
-        <p className="headline mt-1 text-center text-4xl text-cream">
-          Pitstop <span className="text-mustard">★</span>
-        </p>
+        {/* red felt */}
+        <div
+          className="relative overflow-hidden rounded-[3px] px-6 py-7 sm:px-8 sm:py-8"
+          style={{
+            background:
+              "repeating-linear-gradient(#c01528, #c01528 12px, #b21221 12px, #b21221 14px)",
+            color: white,
+          }}
+        >
+          <p className="text-center text-xs uppercase tracking-[0.45em] sm:text-sm">
+            Welcome&nbsp;&nbsp;To
+          </p>
 
-        <ul className="mt-6 space-y-3">
-          {board.map((row) => (
-            <li
-              key={row.label}
-              className="flex items-baseline justify-between gap-3 text-sm uppercase tracking-wide sm:text-base"
+          <div className="relative mt-2">
+            <span className="absolute -top-1 left-4 text-lg" style={{ color: white }}>
+              ★
+            </span>
+            <p
+              className="text-center text-4xl font-extrabold uppercase tracking-[0.12em] sm:text-5xl"
+              style={{ fontFamily: "var(--font-body)" }}
             >
-              <span className="font-semibold">{row.label}</span>
-              <span
-                aria-hidden
-                className="mx-1 flex-1 border-b border-dotted border-cream/30"
-              />
-              <span className="tabular-nums font-bold text-mustard">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.span
-                    key={row.price}
-                    initial={{ y: -10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 10, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="inline-block"
-                  >
-                    {row.price}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </li>
-          ))}
-        </ul>
+              Pitstop
+            </p>
+            <span className="absolute -bottom-3 right-8 text-lg" style={{ color: white }}>
+              ★
+            </span>
+          </div>
 
-        <p className="mt-6 text-center text-sm uppercase tracking-[0.35em] text-cream/90">
-          Don&rsquo;t think twice!
-        </p>
+          <ul className="mt-8 space-y-4">
+            {board.map((row) => (
+              <li
+                key={row.label}
+                className="flex items-start justify-between gap-4 text-[15px] font-semibold uppercase leading-tight tracking-[0.04em] sm:text-base"
+              >
+                <span className="max-w-[78%]">{row.label}</span>
+                <span className="shrink-0 tabular-nums">
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.span
+                      key={row.price}
+                      initial={{ y: -10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: 10, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="inline-block"
+                    >
+                      {row.price}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-8 text-center text-sm uppercase tracking-[0.3em] sm:text-base">
+            Don&rsquo;t&nbsp;&nbsp;Think&nbsp;&nbsp;Twice!
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -134,7 +163,7 @@ export default function Menu() {
             <div className="mt-6 text-center">
               <p className="headline text-3xl">The World Famous Cheeseburger</p>
               <p className="mt-2 text-4xl font-bold tabular-nums text-mustard">
-                ${hot ? 19 : 17}
+                ${hot ? 20 : 18}
               </p>
 
               <button

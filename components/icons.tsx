@@ -16,6 +16,20 @@ export function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
+export function MapPin({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden>
+      <path
+        d="M12 21s7-5.686 7-11a7 7 0 1 0-14 0c0 5.314 7 11 7 11Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
 export function ArrowDown({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden>

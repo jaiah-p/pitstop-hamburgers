@@ -20,7 +20,7 @@ export type MenuItem = {
 export const MENU: MenuItem[] = [
   {
     name: "The World Famous Cheese Burger",
-    price: 17,
+    price: 18,
     blurb:
       "Double smash patties of local beef, American cheese, onion, pickles and our sweet, tangy Mississippi comeback sauce on a buttered, toasted bun.",
   },
