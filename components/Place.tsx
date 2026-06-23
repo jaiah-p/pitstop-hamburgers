@@ -17,30 +17,51 @@ export default function Place() {
           </p>
         </Reveal>
 
-        {/* area photos */}
-        <div className="mt-12 grid gap-5 sm:grid-cols-2">
-          <Reveal>
-            <figure className="overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
+        {/* the place */}
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <Reveal className="md:col-span-2">
+            <figure className="h-full overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
+              <img
+                src="/photos/store.jpg"
+                alt="Pitstop Hamburgers behind the Thora General Store"
+                className="aspect-[16/10] h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+              <figcaption className="bg-ink px-4 py-2 text-xs uppercase tracking-widest text-cream/70">
+                Behind the Thora General Store
+              </figcaption>
+            </figure>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <figure className="h-full overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
               <img
                 src="/photos/area-falls.jpg"
                 alt="Dangar Falls near Dorrigo on Waterfall Way"
-                className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-105"
+                className="h-full min-h-56 w-full object-cover transition-transform duration-700 hover:scale-105"
               />
               <figcaption className="bg-ink px-4 py-2 text-xs uppercase tracking-widest text-cream/70">
                 Waterfall Way · Dorrigo
               </figcaption>
             </figure>
           </Reveal>
+        </div>
+
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <Reveal>
+            <figure className="overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
+              <img
+                src="/photos/deck.jpg"
+                alt="The Pitstop deck at the Thora General Store"
+                className="aspect-[16/11] w-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </figure>
+          </Reveal>
           <Reveal delay={0.1}>
             <figure className="overflow-hidden rounded-2xl ring-4 ring-ink shadow-xl">
               <img
-                src="/photos/area-bellingen.jpg"
-                alt="Relaxing in Bellingen"
-                className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-105"
+                src="/photos/deck2.jpg"
+                alt="The order counter on the Pitstop deck"
+                className="aspect-[16/11] w-full object-cover transition-transform duration-700 hover:scale-105"
               />
-              <figcaption className="bg-ink px-4 py-2 text-xs uppercase tracking-widest text-cream/70">
-                Come as you are · Bellingen
-              </figcaption>
             </figure>
           </Reveal>
         </div>

@@ -53,3 +53,31 @@ export const MENU: MenuItem[] = [
     blurb: "Thick, real vanilla, topped with whipped cream. Done right.",
   },
 ];
+
+export type PitstopEvent = {
+  when: string;
+  title: string;
+  detail: string;
+  recurring?: boolean;
+};
+
+// Edit this list to post upcoming events. The Sunday Chess Club is a weekly
+// regular; add dated one-offs (live music, community nights) as they're booked.
+export const EVENTS: PitstopEvent[] = [
+  {
+    when: "Every Sunday",
+    title: "Sunday Chess Club",
+    detail: "All ages and levels. Sit down, shake hands, make your next best move.",
+    recurring: true,
+  },
+  {
+    when: "On the deck",
+    title: "Live Music Afternoons",
+    detail: "Local acts and country tunes when the sun is out. Dates announced on Instagram.",
+  },
+  {
+    when: "Keep an eye out",
+    title: "Community Nights",
+    detail: "Long-table feeds and get-togethers in the valley, now and then.",
+  },
+];

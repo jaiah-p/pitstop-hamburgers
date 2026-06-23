@@ -2,10 +2,9 @@ import Nav from "@/components/Nav";
 import FieldHero from "@/components/FieldHero";
 import Ticker from "@/components/Ticker";
 import Place from "@/components/Place";
-import Story from "@/components/Story";
-import ChessClub from "@/components/ChessClub";
 import Menu from "@/components/Menu";
-import SeeMore from "@/components/SeeMore";
+import Story from "@/components/Story";
+import MorePitstop from "@/components/MorePitstop";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -16,10 +15,9 @@ export default function Home() {
         <FieldHero />
         <Ticker />
         <Place />
-        <Story />
-        <ChessClub />
         <Menu />
-        <SeeMore />
+        <Story />
+        <MorePitstop />
       </main>
       <Footer />
     </>
