@@ -27,9 +27,9 @@ const SITE = "https://pitstop-hamburgers-jaiah-7290s-projects.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
-  title: "Pitstop Hamburgers — Thora, NSW",
+  title: "Pitstop Hamburgers · Thora NSW",
   description:
-    "An old-school roadside burger shop behind the Thora General Store, midway between Bellingen and Dorrigo. One double cheeseburger, beef tallow fries, vanilla milkshakes. Don't think twice.",
+    "An old school roadside burger shop behind the Thora General Store, midway between Bellingen and Dorrigo. One double cheeseburger, beef tallow fries, vanilla milkshakes. Don't think twice.",
   keywords: [
     "Pitstop Hamburgers",
     "Thora",
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     "Waterfall Way",
   ],
   openGraph: {
-    title: "Pitstop Hamburgers — Thora, NSW",
+    title: "Pitstop Hamburgers · Thora NSW",
     description:
-      "Simple food done well. One double cheeseburger, beef tallow fries, vanilla milkshakes. Open Thursday–Sunday, 11am–3pm. Don't think twice.",
+      "Simple food done well. One double cheeseburger, beef tallow fries, vanilla milkshakes. Open Thursday to Sunday, 11am til 3pm. Don't think twice.",
     url: SITE,
     siteName: "Pitstop Hamburgers",
     locale: "en_AU",
@@ -52,9 +52,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pitstop Hamburgers — Thora, NSW",
+    title: "Pitstop Hamburgers · Thora NSW",
     description:
-      "An old-school roadside burger shop in the heart of the valley. Don't think twice.",
+      "An old school roadside burger shop in the heart of the valley. Don't think twice.",
   },
 };
 

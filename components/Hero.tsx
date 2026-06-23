@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { SITE } from "@/lib/site";
 import { ArrowDown } from "./icons";
-import BurgerSVG from "./BurgerSVG";
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -13,16 +12,16 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const burgerY = useTransform(scrollYProgress, [0, 1], [0, 220]);
-  const burgerScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const photoRot = useTransform(scrollYProgress, [0, 1], [-4, 4]);
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, -110]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
     <section
       id="top"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-red-deep text-cream"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-red-deep px-5 pb-28 pt-24 text-cream"
     >
       {/* sunburst */}
       <div
@@ -33,7 +32,6 @@ export default function Hero() {
             "repeating-conic-gradient(from 0deg, #f6ecd6 0deg 6deg, transparent 6deg 12deg)",
         }}
       />
-      {/* halftone vignette */}
       <div
         aria-hidden
         className="halftone pointer-events-none absolute inset-0 text-red-dark opacity-30"
@@ -49,42 +47,54 @@ export default function Hero() {
 
       <motion.div
         style={{ y: titleY, opacity: fade }}
-        className="relative z-10 flex flex-col items-center px-4 text-center"
+        className="relative z-10 flex flex-col items-center text-center"
       >
         <span className="eyebrow mb-4 inline-block rounded-full border border-cream/40 px-4 py-1 text-cream/90">
           Thora · NSW · Est. in the valley
         </span>
 
-        <h1 className="headline text-[17vw] leading-[0.8] sm:text-[14vw] lg:text-[10rem]">
-          <span className="block">Pitstop</span>
-          <span className="block text-mustard">Hamburgers</span>
-        </h1>
+        {/* real Pitstop wordmark */}
+        <img
+          src="/photos/logo-cream.svg"
+          alt="Pitstop Hamburgers"
+          className="w-[74vw] max-w-xl drop-shadow-[0_6px_0_rgba(124,11,20,0.5)]"
+        />
 
-        <p className="script mt-3 text-2xl text-cream/90 sm:text-3xl">
+        <p className="script mt-4 text-2xl text-cream/90 sm:text-3xl">
           {SITE.tagline}
         </p>
       </motion.div>
 
-      {/* floating burger */}
+      {/* real burger photo, polaroid style */}
       <motion.div
-        style={{ y: burgerY, scale: burgerScale }}
-        className="pointer-events-none relative z-0 -mt-[6vw] w-[58vw] max-w-[20rem] sm:-mt-[4vw]"
+        style={{ y: photoY, rotate: photoRot, opacity: fade }}
+        className="relative z-0 mt-7 w-[52vw] max-w-[14rem]"
       >
-        <div className="float-y drop-shadow-2xl">
-          <BurgerSVG className="h-auto w-full" />
+        <div className="float-y rounded-[14px] bg-cream p-2.5 pb-9 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)]">
+          <img
+            src="/photos/burger-shake.jpg"
+            alt="A Pitstop cheeseburger with waffle fries and a strawberry milkshake"
+            className="aspect-[4/5] w-full rounded-[4px] object-cover"
+          />
+          <span className="script absolute inset-x-0 bottom-1.5 text-center text-xl text-ink">
+            the good stuff
+          </span>
         </div>
       </motion.div>
 
-      {/* info strip */}
       <motion.div
         style={{ opacity: fade }}
-        className="absolute bottom-6 z-10 flex w-full flex-col items-center gap-1 px-4 text-center text-sm text-cream/80"
+        className="absolute bottom-5 z-10 flex w-full flex-col items-center gap-1 px-4 text-center text-sm text-cream/80"
       >
         <p className="font-semibold uppercase tracking-[0.2em]">{SITE.hours}</p>
         <p className="text-cream/60">
           {SITE.location} · {SITE.between}
         </p>
-        <a href="#story" aria-label="Scroll down" className="mt-2 text-cream/70 hover:text-mustard">
+        <a
+          href="#story"
+          aria-label="Scroll down"
+          className="mt-2 text-cream/70 hover:text-mustard"
+        >
           <ArrowDown className="h-6 w-6 animate-bounce" />
         </a>
       </motion.div>

@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MENU } from "@/lib/site";
-import BurgerSVG from "./BurgerSVG";
 import Reveal from "./Reveal";
 
-/* The felt letter-board, recreated from the shop's real sign. */
 function LetterBoard({ hot }: { hot: boolean }) {
   const board = [
     { label: "The World Famous Cheese Burger", price: hot ? 19 : 17 },
@@ -39,7 +37,10 @@ function LetterBoard({ hot }: { hot: boolean }) {
               className="flex items-baseline justify-between gap-3 text-sm uppercase tracking-wide sm:text-base"
             >
               <span className="font-semibold">{row.label}</span>
-              <span aria-hidden className="mx-1 flex-1 border-b border-dotted border-cream/30" />
+              <span
+                aria-hidden
+                className="mx-1 flex-1 border-b border-dotted border-cream/30"
+              />
               <span className="tabular-nums font-bold text-mustard">
                 <AnimatePresence mode="popLayout" initial={false}>
                   <motion.span
@@ -71,35 +72,68 @@ export default function Menu() {
 
   return (
     <section id="menu" className="relative bg-ink py-24 text-cream sm:py-32">
-      {/* halftone top */}
-      <div aria-hidden className="halftone pointer-events-none absolute inset-0 text-white/[0.04]" />
+      <div
+        aria-hidden
+        className="halftone pointer-events-none absolute inset-0 text-white/[0.04]"
+      />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="text-center">
-          <p className="eyebrow text-mustard">The whole menu · three things done right</p>
+          <p className="eyebrow text-mustard">
+            The whole menu · three things done right
+          </p>
           <h2 className="headline mt-3 text-6xl sm:text-8xl">
             Tight by <span className="text-red">design.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-cream/70">
-            One double cheeseburger. Crinkle-cut fries in beef tallow. Vanilla
+            One double cheeseburger. Crinkle cut fries in beef tallow. Vanilla
             milkshakes. Nothing wasted, nothing tired.
           </p>
         </Reveal>
 
         <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
-          {/* interactive burger builder */}
+          {/* the real burger + Hot & Tropical toggle */}
           <Reveal className="order-2 flex flex-col items-center lg:order-1">
             <motion.div
-              animate={{ rotate: hot ? [0, -1.5, 1.5, 0] : 0 }}
+              animate={{ rotate: hot ? [0, -1.2, 1.2, 0] : 0 }}
               transition={{ duration: 0.5 }}
-              className="w-full max-w-sm"
+              className="relative w-full max-w-sm overflow-hidden rounded-3xl ring-4 ring-white/10 shadow-2xl"
             >
-              <BurgerSVG hot={hot} className="h-auto w-full" />
+              <img
+                src="/photos/burger-shake.jpg"
+                alt="The World Famous Cheese Burger"
+                className="aspect-square w-full object-cover"
+              />
+
+              {/* hot overlay */}
+              <AnimatePresence>
+                {hot && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(215,36,46,0.0) 35%, rgba(215,36,46,0.45) 100%)",
+                    }}
+                  >
+                    <motion.span
+                      initial={{ scale: 0, rotate: -25 }}
+                      animate={{ scale: 1, rotate: -12 }}
+                      transition={{ type: "spring", stiffness: 240, damping: 14 }}
+                      className="absolute right-4 top-4 whitespace-nowrap rounded-full bg-mustard px-4 py-2 text-sm font-bold uppercase tracking-wider text-ink shadow-lg"
+                    >
+                      🌶️ Hot &amp; Tropical 🍍
+                    </motion.span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
-            <div className="mt-2 text-center">
+            <div className="mt-6 text-center">
               <p className="headline text-3xl">The World Famous Cheeseburger</p>
-              <p className="mt-2 text-4xl font-bold text-mustard tabular-nums">
+              <p className="mt-2 text-4xl font-bold tabular-nums text-mustard">
                 ${hot ? 19 : 17}
               </p>
 
@@ -114,21 +148,24 @@ export default function Menu() {
                 }`}
               >
                 <span className="text-lg">{hot ? "🌶️🍍" : "🍍"}</span>
-                {hot ? "Hot & Tropical — added" : "Make it Hot & Tropical (+$2)"}
+                {hot ? "Hot & Tropical, added" : "Make it Hot & Tropical (+$2)"}
               </button>
               <p className="mt-3 text-xs uppercase tracking-widest text-cream/40">
-                Spicy fried pineapple — tap to taste it
+                Spicy fried pineapple · tap to add
               </p>
             </div>
           </Reveal>
 
           {/* the board */}
-          <Reveal delay={0.1} className="order-1 mx-auto w-full max-w-md lg:order-2">
+          <Reveal
+            delay={0.1}
+            className="order-1 mx-auto w-full max-w-md lg:order-2"
+          >
             <LetterBoard hot={hot} />
           </Reveal>
         </div>
 
-        {/* the supporting cast */}
+        {/* supporting cast */}
         <div className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {MENU.filter((m) => m.note !== "add-on").map((item, i) => (
             <Reveal

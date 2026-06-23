@@ -8,11 +8,11 @@ export default function Footer() {
         <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
           <div>
             <p className="script text-2xl text-mustard">Don&rsquo;t think twice.</p>
-            <h2 className="headline mt-1 text-7xl leading-[0.8] sm:text-8xl">
-              Pitstop
-              <br />
-              Hamburgers
-            </h2>
+            <img
+              src="/photos/logo-cream.svg"
+              alt="Pitstop Hamburgers"
+              className="mt-2 w-72 max-w-full sm:w-96"
+            />
           </div>
 
           <div className="flex flex-col gap-4">

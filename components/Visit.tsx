@@ -25,8 +25,8 @@ export default function Visit() {
                 </div>
                 <div>
                   <p className="eyebrow text-mustard">When</p>
-                  <p className="mt-2 text-xl font-semibold">Thursday — Sunday</p>
-                  <p className="text-cream/70">11am – 3pm</p>
+                  <p className="mt-2 text-xl font-semibold">Thursday to Sunday</p>
+                  <p className="text-cream/70">11am til 3pm</p>
                 </div>
               </div>
 

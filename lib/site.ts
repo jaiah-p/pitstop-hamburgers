@@ -4,7 +4,7 @@ export const SITE = {
   location: "Behind the Thora General Store",
   address: "2656 Waterfall Way, Thora NSW 2454",
   between: "Midway between Bellingen & Dorrigo",
-  hours: "Thursday — Sunday · 11am – 3pm",
+  hours: "Thursday to Sunday · 11am til 3pm",
   instagram: "https://www.instagram.com/pitstop.hamburgers/",
   facebook: "https://www.facebook.com/pitstophamburgersthora/",
   maps: "https://www.google.com/maps/search/?api=1&query=Pitstop+Hamburgers+Thora+NSW",
@@ -35,7 +35,7 @@ export const MENU: MenuItem[] = [
     name: "Beef Tallow Fries",
     price: 7,
     blurb:
-      "Crinkle-cut and fried in beef tallow until golden. Crisp edges, fluffy middle. Chips like no other.",
+      "Crinkle cut and fried in beef tallow until golden. Crisp edges, fluffy middle. Chips like no other.",
   },
   {
     name: "Dinosaur Nuggets",
@@ -45,7 +45,7 @@ export const MENU: MenuItem[] = [
   {
     name: "Homemade Sweet Southern Ice Tea",
     price: 6,
-    blurb: "Brewed in-house, properly sweet, properly cold. Southern style.",
+    blurb: "Brewed in house, properly sweet, properly cold. Southern style.",
   },
   {
     name: "Vanilla Milkshake",

@@ -34,11 +34,16 @@ export default function Nav() {
 
         <a
           href="#top"
-          className={`headline text-xl leading-none tracking-tight transition-colors sm:text-2xl ${
-            scrolled ? "text-red" : "text-cream"
+          aria-label="Pitstop Hamburgers, back to top"
+          className={`transition-opacity duration-300 ${
+            scrolled ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
-          Pitstop
+          <img
+            src="/photos/logo-ink.svg"
+            alt="Pitstop Hamburgers"
+            className="h-8 w-auto"
+          />
         </a>
 
         <div className="flex items-center gap-4">

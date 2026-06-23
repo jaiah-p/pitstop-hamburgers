@@ -20,19 +20,19 @@ export default function Story() {
           <Reveal className="space-y-5 text-lg leading-relaxed text-ink-soft">
             <p>
               Behind the Thora General Store, midway between Bellingen and
-              Dorrigo, you&rsquo;ll find Pitstop Hamburgers — an old-school
-              roadside burger shop from fine-dining chef{" "}
+              Dorrigo, you&rsquo;ll find Pitstop Hamburgers, an old school
+              roadside burger shop from fine dining chef{" "}
               <strong className="text-ink">Giuseppe</strong> and his partner{" "}
               <strong className="text-ink">Gemma</strong>.
             </p>
             <p>
-              Giuseppe spent over ten years in Michelin-starred and three-hatted
+              Giuseppe spent over ten years in Michelin starred and three hatted
               kitchens across Europe, the United States and Australia. Now he
-              flips smash burgers for his community — and calls it the more
+              flips smash burgers for his community, and calls it the more
               rewarding pursuit.
             </p>
             <p>
-              It&rsquo;s a true two-person operation. Giuseppe runs the kitchen;
+              It&rsquo;s a true two person operation. Giuseppe runs the kitchen.
               Gemma leads the design and socials, and jumps on the fryer and
               milkshakes when it gets busy.
             </p>
@@ -48,7 +48,7 @@ export default function Story() {
                 house. I cook one way, to the best of my ability.
               </p>
               <footer className="script mt-5 text-xl text-cream/90">
-                — Giuseppe
+                Giuseppe
               </footer>
             </blockquote>
           </Reveal>
@@ -58,8 +58,8 @@ export default function Story() {
           <p className="mt-14 max-w-3xl text-xl leading-relaxed text-ink-soft sm:text-2xl">
             &ldquo;A tight menu keeps prices fair and quality high. Nothing
             wasted. Nothing tired. All our focus goes into doing three things
-            right —{" "}
-            <span className="text-red font-semibold">and you can taste it.</span>
+            right.{" "}
+            <span className="text-red font-semibold">And you can taste it.</span>
             &rdquo;
           </p>
         </Reveal>
