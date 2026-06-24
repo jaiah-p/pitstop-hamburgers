@@ -79,7 +79,7 @@ export default function WindingRoad() {
         {/* the road */}
         <svg
           viewBox="0 0 320 920"
-          className="absolute h-[82vh] w-auto"
+          className="absolute top-[19vh] h-[69vh] w-auto"
           fill="none"
           aria-hidden
         >
