@@ -7,12 +7,13 @@ import Reveal from "./Reveal";
 
 function LetterBoard({ hot }: { hot: boolean }) {
   const board = [
-    { label: "The World Famous Cheese Burger", price: hot ? 20 : 18 },
-    { label: "Make It Hot & Tropical", price: 2 },
+    { label: "The World Famous Cheese Burger", price: hot ? 21 : 18 },
+    { label: "Triple It, Go On!", price: 5 },
+    { label: "Make It Hot & Tropical", price: 3 },
     { label: "Beef Tallow Fries", price: 7 },
     { label: "Dinosaur Nuggets", price: 7 },
-    { label: "Homemade Sweet Southern Ice Tea", price: 6 },
-    { label: "Milkshake", price: 7 },
+    { label: "Vanilla Milkshake", price: 8 },
+    { label: "Sunshine Lemonade", price: 6 },
   ];
   const white = "#f5f1e6";
   return (
@@ -98,6 +99,10 @@ function LetterBoard({ hot }: { hot: boolean }) {
 
 export default function Menu() {
   const [hot, setHot] = useState(false);
+  // When Hot & Tropical is on, show the real tropical burger photo. Falls back
+  // to the base burger if /photos/burger-tropical.jpg isn't present yet.
+  const [tropicalOk, setTropicalOk] = useState(true);
+  const showTropical = hot && tropicalOk;
 
   return (
     <section id="menu" className="relative bg-ink py-24 text-cream sm:py-32">
@@ -129,14 +134,19 @@ export default function Menu() {
               className="relative w-full max-w-sm overflow-hidden rounded-3xl ring-4 ring-white/10 shadow-2xl"
             >
               <img
-                src="/photos/burger-shake.jpg"
-                alt="The World Famous Cheese Burger"
+                src={showTropical ? "/photos/burger-tropical.jpg" : "/photos/burger-shake.jpg"}
+                onError={() => setTropicalOk(false)}
+                alt={
+                  showTropical
+                    ? "The World Famous Cheese Burger, Hot & Tropical"
+                    : "The World Famous Cheese Burger"
+                }
                 className="aspect-square w-full object-cover"
               />
 
-              {/* hot overlay */}
+              {/* hot overlay — only tinted while we're on the fallback image */}
               <AnimatePresence>
-                {hot && (
+                {hot && !showTropical && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -163,7 +173,7 @@ export default function Menu() {
             <div className="mt-6 text-center">
               <p className="headline text-3xl">The World Famous Cheeseburger</p>
               <p className="mt-2 text-4xl font-bold tabular-nums text-mustard">
-                ${hot ? 20 : 18}
+                ${hot ? 21 : 18}
               </p>
 
               <button
@@ -177,7 +187,7 @@ export default function Menu() {
                 }`}
               >
                 <span className="text-lg">{hot ? "🌶️🍍" : "🍍"}</span>
-                {hot ? "Hot & Tropical, added" : "Make it Hot & Tropical (+$2)"}
+                {hot ? "Hot & Tropical, added" : "Make it Hot & Tropical (+$3)"}
               </button>
               <p className="mt-3 text-xs uppercase tracking-widest text-cream/40">
                 Spicy fried pineapple · tap to add
@@ -196,7 +206,7 @@ export default function Menu() {
 
         {/* supporting cast */}
         <div className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {MENU.filter((m) => m.note !== "add-on").map((item, i) => (
+          {MENU.filter((m) => !m.note && !m.hero).map((item, i) => (
             <Reveal
               key={item.name}
               delay={i * 0.05}
@@ -214,6 +224,13 @@ export default function Menu() {
             </Reveal>
           ))}
         </div>
+
+        {/* sign-off */}
+        <Reveal className="mt-16 text-center">
+          <p className="script text-4xl text-mustard sm:text-5xl">
+            Don&rsquo;t think twice.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

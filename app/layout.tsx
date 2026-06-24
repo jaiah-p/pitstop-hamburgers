@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Anton, Inter, Caveat } from "next/font/google";
+import { Alfa_Slab_One, Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Grain from "@/components/Grain";
 
-const anton = Anton({
+const alfaSlab = Alfa_Slab_One({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-display",
@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${anton.variable} ${inter.variable} ${caveat.variable}`}
+      className={`${alfaSlab.variable} ${inter.variable} ${caveat.variable}`}
     >
       <body className="min-h-screen antialiased">
         <SmoothScroll>{children}</SmoothScroll>

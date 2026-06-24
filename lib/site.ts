@@ -15,6 +15,7 @@ export type MenuItem = {
   price: number;
   blurb: string;
   note?: string;
+  hero?: boolean;
 };
 
 export const MENU: MenuItem[] = [
@@ -23,10 +24,18 @@ export const MENU: MenuItem[] = [
     price: 18,
     blurb:
       "Double smash patties of local beef, American cheese, onion, pickles and our sweet, tangy Mississippi comeback sauce on a buttered, toasted bun.",
+    hero: true,
+  },
+  {
+    name: "Triple It, Go On!",
+    price: 5,
+    blurb:
+      "Three smash patties instead of two. For when two just won't cut it.",
+    note: "add-on",
   },
   {
     name: "Make It Hot & Tropical",
-    price: 2,
+    price: 3,
     blurb:
       "A spicy fried slice of pineapple stacked into your burger. Sweet heat, the way it was meant to be.",
     note: "add-on",
@@ -43,14 +52,14 @@ export const MENU: MenuItem[] = [
     blurb: "Exactly what they sound like. For the kids, and the kids at heart.",
   },
   {
-    name: "Homemade Sweet Southern Ice Tea",
-    price: 6,
-    blurb: "Brewed in house, properly sweet, properly cold. Southern style.",
+    name: "Vanilla Milkshake",
+    price: 8,
+    blurb: "Thick, real vanilla, topped with whipped cream. Done right.",
   },
   {
-    name: "Vanilla Milkshake",
-    price: 7,
-    blurb: "Thick, real vanilla, topped with whipped cream. Done right.",
+    name: "Sunshine Lemonade",
+    price: 6,
+    blurb: "Cold, cloudy and properly tart. Made to wash down a burger.",
   },
 ];
 
