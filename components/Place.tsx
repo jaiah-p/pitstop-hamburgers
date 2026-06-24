@@ -6,14 +6,14 @@ export default function Place() {
     <section id="place" className="relative bg-cream py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="text-center">
-          <p className="eyebrow text-red">In the heart of the valley</p>
+          <p className="eyebrow text-red">You&rsquo;ve arrived</p>
           <h2 className="headline mt-3 text-5xl text-ink sm:text-7xl">
-            Find the <span className="text-red">Pitstop.</span>
+            Explore the <span className="text-red">Pitstop.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-soft">
             Surrounded by cattle farms on Waterfall Way, midway between Bellingen
-            and Dorrigo, you&rsquo;ll find Pitstop tucked behind the Thora
-            General Store. A little rough around the edges, all warm welcomes.
+            and Dorrigo, tucked behind the Thora General Store. A little rough
+            around the edges, all warm welcomes.
           </p>
         </Reveal>
 
@@ -105,6 +105,20 @@ export default function Place() {
             </div>
           </Reveal>
         </div>
+
+        {/* catchy hand-off into the menu */}
+        <Reveal className="mt-16 text-center">
+          <p className="script text-3xl text-red sm:text-4xl">Don&rsquo;t think twice.</p>
+          <p className="mx-auto mt-3 max-w-xl text-lg text-ink-soft">
+            You made the drive. Now stock up on the world famous burgers.
+          </p>
+          <a
+            href="#menu"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-red px-8 py-4 text-sm font-bold uppercase tracking-widest text-cream shadow-lg transition-transform hover:scale-105"
+          >
+            See the menu →
+          </a>
+        </Reveal>
       </div>
     </section>
   );

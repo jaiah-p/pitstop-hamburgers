@@ -1,73 +1,60 @@
 "use client";
 
-import { motion, useSpring, useTransform, type MotionValue } from "framer-motion";
-import { useRef } from "react";
+import { motion, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useScrollProgress } from "./ui/use-scroll-progress";
 import { MapPin } from "./icons";
 
 /**
- * Scroll-driven journey to Pitstop. As you scroll: a winding road draws itself
- * down "Waterfall Way", a marker rides the route, a postcard cross-fades through
- * scenery of the drive, then a pin drops and you arrive at Pitstop.
+ * Scroll-driven journey to Pitstop. As you scroll, "Waterfall Way" draws itself
+ * down the screen, a marker rides the route, a pin drops, and you arrive at the
+ * Pitstop roadside sign. No scenery photos — just the road and the arrival.
+ *
+ * The sign reveal uses /photos/sign.jpg. If that file isn't present yet it
+ * gracefully falls back to a branded card, so the section never breaks.
  */
 
 const ROAD =
   "M160 12 C 70 110 70 215 160 305 S 250 475 160 565 S 78 705 160 795 S 205 865 160 905";
 
-// Scenery of the drive (real, people-free). Each fades in → peaks → fades out.
-const STOPS = [
-  { src: "/photos/drive-forest.jpg", label: "Dorrigo rainforest", at: [0, 0.18, 0.42] },
-  { src: "/photos/drive-falls.jpg", label: "Dangar Falls", at: [0.36, 0.56, 0.74] },
-];
-
-function Postcard({
-  src,
-  label,
-  opacity,
-}: {
-  src: string;
-  label: string;
-  opacity: MotionValue<number>;
-}) {
-  return (
-    <motion.figure style={{ opacity }} className="absolute inset-0">
-      <img src={src} alt={label} className="h-full w-full object-cover" />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent px-4 pb-3 pt-10">
-        <figcaption className="text-center text-sm font-bold uppercase tracking-[0.25em] text-cream">
-          {label}
-        </figcaption>
-      </div>
-    </motion.figure>
-  );
-}
-
 export default function WindingRoad() {
   const ref = useRef<HTMLDivElement>(null);
+  const signRef = useRef<HTMLImageElement>(null);
   const p = useScrollProgress(ref);
+  const [signOk, setSignOk] = useState(true);
 
-  const draw = useTransform(p, [0, 0.82], [0, 1]);
-  const marker = useTransform(p, [0, 0.82], [0, 0.99]);
+  // onError can miss a 404 that resolves before hydration — re-check on mount.
+  useEffect(() => {
+    const img = signRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setSignOk(false);
+  }, []);
 
-  const signFade = useTransform(p, [0, 0.1], [0, 1]);
-  const signY = useTransform(p, [0, 0.1], [-24, 0]);
+  // road draws as you scroll
+  const draw = useTransform(p, [0.05, 0.72], [0, 1]);
+  const marker = useTransform(p, [0.05, 0.72], [0, 0.99]);
 
-  const o0 = useTransform(p, STOPS[0].at, [0, 1, 0]);
-  const o1 = useTransform(p, STOPS[1].at, [0, 1, 0]);
-  const stopOpacities = [o0, o1];
-  const arrivalOpacity = useTransform(p, [0.72, 0.86], [0, 1]);
+  // heading rises in at the very start and stays
+  const headFade = useTransform(p, [0, 0.06], [0, 1]);
+  const headY = useTransform(p, [0, 0.06], [-22, 0]);
 
-  const pinScale = useSpring(useTransform(p, [0.74, 0.9], [0, 1]), {
+  // arrival: sign card + pin + "you've arrived"
+  const cardOpacity = useTransform(p, [0.6, 0.78], [0, 1]);
+  const cardScale = useSpring(useTransform(p, [0.6, 0.84], [0.82, 1]), {
+    stiffness: 180,
+    damping: 20,
+  });
+  const pinScale = useSpring(useTransform(p, [0.7, 0.88], [0, 1]), {
     stiffness: 280,
     damping: 16,
   });
-  const pinY = useTransform(p, [0.68, 0.88], [-50, 0]);
-  const arriveText = useTransform(p, [0.9, 1], [0, 1]);
+  const pinY = useTransform(p, [0.64, 0.86], [-50, 0]);
+  const arriveText = useTransform(p, [0.88, 1], [0, 1]);
 
   return (
     <section
       ref={ref}
       id="journey"
-      className="relative h-[320vh] bg-paper"
+      className="relative h-[300vh] bg-paper"
       style={{
         backgroundImage:
           "radial-gradient(circle at 1px 1px, rgba(24,18,16,0.07) 1px, transparent 0)",
@@ -75,53 +62,61 @@ export default function WindingRoad() {
       }}
     >
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5">
+        {/* heading at the start of the road */}
         <motion.div
-          style={{ opacity: signFade, y: signY }}
-          className="absolute top-[9vh] z-30"
+          style={{ opacity: headFade, y: headY }}
+          className="absolute top-[7vh] z-30 text-center"
         >
-          <p className="eyebrow mb-2 text-center text-red">The drive in</p>
-          <div className="rounded-lg border-[3px] border-cream bg-pickle px-6 py-2 text-center shadow-xl">
-            <span className="block text-[0.6rem] font-bold uppercase tracking-[0.3em] text-cream/80">
-              Waterfall Way
-            </span>
-            <span className="headline block text-2xl leading-none text-cream sm:text-3xl">
-              Thora
-            </span>
-          </div>
+          <p className="eyebrow text-red">Pull off Waterfall Way</p>
+          <h2 className="headline mt-2 text-5xl text-ink sm:text-6xl">
+            Find the <span className="text-red">Pitstop.</span>
+          </h2>
+          <p className="mt-2 text-sm font-bold uppercase tracking-[0.3em] text-ink-soft">
+            Thora · NSW
+          </p>
         </motion.div>
 
         {/* the road */}
-        <svg viewBox="0 0 320 920" className="absolute h-[82vh] w-auto" fill="none" aria-hidden>
+        <svg
+          viewBox="0 0 320 920"
+          className="absolute h-[82vh] w-auto"
+          fill="none"
+          aria-hidden
+        >
           <motion.path d={ROAD} stroke="#211c19" strokeWidth="30" strokeLinecap="round" style={{ pathLength: draw }} />
           <motion.path d={ROAD} stroke="#edb43c" strokeWidth="3" strokeLinecap="round" strokeDasharray="1 16" style={{ pathLength: draw }} />
           <motion.path d={ROAD} stroke="#f6ecd6" strokeWidth="13" strokeLinecap="round" style={{ pathLength: 0.012, pathOffset: marker }} />
         </svg>
 
-        {/* postcard of the drive — cross-fades scenery, then the arrival card */}
-        <div className="relative z-20 aspect-[4/3] w-[64vw] max-w-md rounded-lg bg-cream p-2 shadow-2xl ring-1 ring-ink/10">
-          <div className="relative h-full w-full overflow-hidden rounded-md bg-ink/10">
-            {STOPS.map((s, i) => (
-              <Postcard key={s.src} src={s.src} label={s.label} opacity={stopOpacities[i]} />
-            ))}
-
-            {/* arrival card. Drop a close-up of the sign at /photos/sign.jpg and
-                replace this block with <Postcard src="/photos/sign.jpg" .../>. */}
-            <motion.div
-              style={{ opacity: arrivalOpacity }}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-red-deep"
-            >
-              <img src="/photos/logo-cream.svg" alt="Pitstop Hamburgers" className="w-[62%]" />
-              <span className="text-xs font-bold uppercase tracking-[0.3em] text-cream/80">
-                Thora · NSW
-              </span>
-            </motion.div>
+        {/* arrival — the roadside sign reveals at the end of the road */}
+        <motion.div
+          style={{ opacity: cardOpacity, scale: cardScale }}
+          className="relative z-20 w-[68vw] max-w-md rounded-lg bg-cream p-2 shadow-2xl ring-1 ring-ink/10"
+        >
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-red-deep">
+            {signOk ? (
+              <img
+                ref={signRef}
+                src="/photos/sign.jpg"
+                alt="The Pitstop Hamburgers roadside sign on Waterfall Way"
+                className="h-full w-full object-cover"
+                onError={() => setSignOk(false)}
+              />
+            ) : (
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-red-deep">
+                <img src="/photos/logo-cream.svg" alt="Pitstop Hamburgers" className="w-[62%]" />
+                <span className="text-xs font-bold uppercase tracking-[0.3em] text-cream/80">
+                  Thora · NSW
+                </span>
+              </div>
+            )}
           </div>
-        </div>
+        </motion.div>
 
         {/* destination pin */}
         <motion.div
           style={{ scale: pinScale, y: pinY }}
-          className="absolute bottom-[11vh] z-30 flex flex-col items-center"
+          className="absolute bottom-[12vh] z-30 flex flex-col items-center"
         >
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red shadow-2xl ring-4 ring-cream">
             <MapPin className="h-7 w-7 text-cream" />
